@@ -119,6 +119,22 @@ contract CommitRevealVoting {
     function generateHash(string memory _vote, string memory _salt) public view returns (bytes32) {
         return keccak256(abi.encodePacked(_vote, _salt, msg.sender));
     }
+    /**
+     * @dev Helper function to return the current phase as a readable string
+     * instead of an integer (0, 1, or 2).
+     */
+    function getPhaseName() public view returns (string memory) {
+        if (currentPhase == Phase.Commit) {
+            return "Voting";
+        } else if (currentPhase == Phase.Reveal) {
+            return "Reveal";
+        } else if (currentPhase == Phase.Ended) {
+            return "Ended";
+        } else {
+            return "Unknown";
+        }
+    }
 }
+
 
 

@@ -88,7 +88,7 @@ contract CommitRevealVoting {
     function revealVote(string memory _vote, string memory _salt) public atPhase(Phase.Reveal) {
         require(hasCommitted[msg.sender], "You did not commit a vote");
         require(!hasRevealed[msg.sender], "You have already revealed your vote");
-
+        require(validOptions[_vote], "Invalid vote option. Candidate not on ballot.");
         // Recompute the hash using the exact same logic: hash(vote + salt + voter_address)
         bytes32 computedHash = keccak256(abi.encodePacked(_vote, _salt, msg.sender));
 
@@ -120,4 +120,5 @@ contract CommitRevealVoting {
         return keccak256(abi.encodePacked(_vote, _salt, msg.sender));
     }
 }
+
 

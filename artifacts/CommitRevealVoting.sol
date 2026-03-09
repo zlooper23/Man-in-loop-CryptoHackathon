@@ -71,6 +71,7 @@ contract CommitRevealVoting {
      * @param _commitmentHash The keccak256 hash of (vote + salt + voter_address)
      */
     function commitVote(bytes32 _commitmentHash) public atPhase(Phase.Commit) {
+        require(msg.sender != administrator, "The administrator is not allowed to vote");
         require(!hasCommitted[msg.sender], "You have already committed a vote");
         
         commits[msg.sender] = _commitmentHash;
@@ -119,3 +120,4 @@ contract CommitRevealVoting {
         return keccak256(abi.encodePacked(_vote, _salt, msg.sender));
     }
 }
+
